@@ -5,7 +5,7 @@ from fastapi import UploadFile,File
 import bcrypt
 import jwt
 from config.Env import ENVConfig
-from datetime import datetime,timedelta
+from datetime import datetime,timedelta,timezone
 from typing  import Annotated
 import bson
 # from config.cloudinaryConfig import 
@@ -33,8 +33,8 @@ async def registerService(data:authModel.RegisterUser):
     # token 
     token = jwt.encode({
         "user_id":str(doc.inserted_id),
-        "exp":datetime.utcnow()+timedelta(days=10),
-        "iat":datetime.utcnow()
+        "exp":datetime.now(timezone.utc)+timedelta(days=10),
+        "iat":datetime.now(timezone.utc)
     },ENVConfig.JWT_AUTH_SCREATE,algorithm="HS256")
 
 
@@ -55,8 +55,8 @@ async def loginService(data:authModel.LoginUser):
     
     token = jwt.encode({
         "user_id":str(check_exist['_id']),
-        "exp":datetime.utcnow()+timedelta(days=10),
-        "iat":datetime.utcnow()
+        "exp":datetime.now(timezone.utc)+timedelta(days=10),
+        "iat":datetime.now(timezone.utc)
     },ENVConfig.JWT_AUTH_SCREATE,algorithm="HS256")
     return {
         "msg":"Login Success",

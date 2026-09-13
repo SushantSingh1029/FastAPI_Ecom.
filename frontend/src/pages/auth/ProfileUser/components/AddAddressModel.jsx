@@ -126,7 +126,7 @@ toast.error(e.response.data.detail || e.message)
                                                   setStates(states.map((c)=>({id:c.id,name:c.name})))
                                             setFieldValue("country",data)
                                       }}
-                                      as="select" id="country" name="country" className="w-full py-2 px-2 border border-gray-200 rounded bg-gray-50 outline-none">
+                                      id="country" name="country" className="w-full py-2 px-2 border border-gray-200 rounded bg-gray-50 outline-none">
                                           <option value="">Select</option>
                                           {
                                             countries.map((cur,i)=>{
@@ -154,7 +154,7 @@ toast.error(e.response.data.detail || e.message)
 
                                       }}
                                       
-                                      disabled={states.length<=0} as="select" id="state" name="state" className="w-full py-2 px-2 border border-gray-200 rounded disabled:bg-gray-300 bg-gray-50 outline-none">
+                                      disabled={states.length<=0} id="state" name="state" className="w-full py-2 px-2 border border-gray-200 rounded disabled:bg-gray-300 bg-gray-50 outline-none">
                                           <option value="" >Select</option>
 
 

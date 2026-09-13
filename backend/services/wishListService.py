@@ -14,7 +14,7 @@ async def toggleProductService(product_id,user_id):
     product = wishlistModel.AddProduct(product_id=product_id,user_id=user_id)
     await wishlist_collection.insert_one(product.dict())
     return {
-        "msg":f"Product Added into WishList"
+        "msg":"Product Added into WishList"
     }
 
 async def getProductService(product_id,user_id):

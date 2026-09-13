@@ -4,7 +4,7 @@ import { ROLE_TYPE } from '@/constant/auth.constant'
 import { useAuthContext } from '@/context/AuthContext'
 import { axiosClient } from '@/utils/axiosClient'
 import clsx from 'clsx'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import { CgSpinner } from 'react-icons/cg'
 import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
@@ -18,25 +18,24 @@ const ProductPage = () => {
 
 
 
-    const fetchProductBySlug=async()=>{
-        try {
-            setLoading(true)
-            const response = await axiosClient.get("/product/"+slug)
-            const data =await response.data
-            console.log(data);
-             
-            setProduct(data)
-            
-        } catch (error) {
-            toast.error(error?.response?.data?.detail || error.message)
-        }finally{
-            setLoading(false)
-        }
-    }
-
     useEffect(()=>{
+        const fetchProductBySlug=async()=>{
+            try {
+                setLoading(true)
+                const response = await axiosClient.get("/product/"+slug)
+                const data =await response.data
+                console.log(data);
+                 
+                setProduct(data)
+                
+            } catch (error) {
+                toast.error(error?.response?.data?.detail || error.message)
+            }finally{
+                setLoading(false)
+            }
+        }
         fetchProductBySlug()
-    },[])
+    },[slug])
 
     if(loading){
         return <>
@@ -122,10 +121,12 @@ const [isLiked,setIsLiked ]= useState(false)
 
 console.log(user)
 
-const checkExist=async()=>{
+
+
+const checkExist=useCallback(async()=>{
     try {
     if(!token) return
-    if(user.role != ROLE_TYPE.BUYER) return
+    if(user?.role !== ROLE_TYPE.BUYER) return
     const response = await axiosClient.get("/wishlist/get/"+product_id,{
         headers:{
             'Authorization':'Bearer '+ localStorage.getItem("token")
@@ -139,17 +140,15 @@ const checkExist=async()=>{
     }
         
     } catch (error) {
-        toast.error(error?.response?.data?.detail || error.messaga)
+        toast.error(error?.response?.data?.detail || error.message)
     }
-}
-
-
+}, [token, user?.role, product_id])
 
 const navigate = useNavigate()
 
 useEffect(()=>{
     checkExist()
-},[])
+},[checkExist])
 
 
 

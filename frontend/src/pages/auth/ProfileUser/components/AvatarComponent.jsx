@@ -42,7 +42,7 @@ const AvatarComponent = () => {
 
     // Do something with the files
   
-  }, [])
+  }, [fetchUserProfile])
   const {getRootProps, getInputProps, isDragActive} = useDropzone({
     onDrop,
     multiple:false,

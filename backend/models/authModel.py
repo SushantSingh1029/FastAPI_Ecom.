@@ -15,7 +15,7 @@ class ProfileImage(BaseModel):
 
 
 class User(BaseModel):
-    name:str  = Field(...)
+    name:str  = Field(...,min_length=3)
     email:EmailStr  = Field(...)
     password:str = Field(...,min_length=6)
     role:Optional[RolesEnum] = Field(default = RolesEnum.buyer)

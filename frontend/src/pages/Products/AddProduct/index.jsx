@@ -166,7 +166,7 @@ setImages(acceptedFiles)
                 }
 
 
-  }, [])
+  }, [setImages])
   const {getRootProps, getInputProps, isDragActive} = useDropzone({
     onDrop,
     multiple:true,

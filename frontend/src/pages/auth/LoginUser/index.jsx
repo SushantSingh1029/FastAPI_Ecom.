@@ -94,7 +94,7 @@ const LoginUser = () => {
 
                         <div className="mb-3 text-center">
                             <p>
-                                Don't Have An Account ? <Link to={'/register'} className='text-red-600'>Register</Link>
+                                Don&apos;t Have An Account ? <Link to={'/register'} className='text-red-600'>Register</Link>
                             </p>
                         </div>
 
