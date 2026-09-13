@@ -33,7 +33,6 @@ async def addProductView(images:Annotated[List[UploadFile],File()],
     try:
         data = productModel.Product(title=title,description=description,category=category,price=price)
         productModel.Product.model_validate(data)
-        print("model to validate ho gya")
         return await productController.addProductController(images,data,userId)
     except Exception as e:
         # print(f"Product data validation failed: {e}")

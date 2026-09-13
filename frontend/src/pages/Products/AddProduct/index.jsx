@@ -162,11 +162,9 @@ const ProductImageComponent =({images,setImages})=>{
 
      const onDrop = useCallback(acceptedFiles => {
                 if(acceptedFiles && acceptedFiles.length>0){
-setImages(acceptedFiles)
+                    setImages([...images, ...acceptedFiles])
                 }
-
-
-  }, [setImages])
+  }, [setImages, images])
   const {getRootProps, getInputProps, isDragActive} = useDropzone({
     onDrop,
     multiple:true,
@@ -184,8 +182,8 @@ setImages(acceptedFiles)
   }
 
     return <>
-             {images && images.length>0 ? <> 
-             <div className="grid grid-cols-1 md:grid-cols-2  lg:grid-cols-4 mx-auto gap-x-3 gap-y-2">
+             {images && images.length>0 && ( 
+             <div className="grid grid-cols-1 md:grid-cols-2  lg:grid-cols-4 mx-auto gap-x-3 gap-y-2 mb-4">
 
                     {
                         
@@ -193,7 +191,7 @@ setImages(acceptedFiles)
                             return <div key={i} className='w-full relative h-[200px] p-2 rounded-sm'>
                                 <img src={URL.createObjectURL(cur)} alt={i+1} className='w-full h-full  object-cover' />
 
-                                        <button 
+                                        <button type="button"
                                         onClick={()=>deleteHandler(i)}
                                         className="p-2 absolute right-0 top-0 text-xl bg-blue-500 cursor-pointer text-white rounded-full">
                                             <MdClose/>
@@ -202,8 +200,10 @@ setImages(acceptedFiles)
                         })
                     }
                     </div>
+             )}
              
-             </> : <div {...getRootProps()} className='border w-full min-h-44 flex justify-center items-center border-dashed border-blue-500 bg-white'>
+             {images.length < 5 && (
+             <div {...getRootProps()} className='border w-full min-h-44 flex justify-center items-center border-dashed border-blue-500 bg-white cursor-pointer hover:bg-gray-50'>
                 <input {...getInputProps()} />
                 {
                     isDragActive ?
@@ -216,10 +216,11 @@ setImages(acceptedFiles)
                     :
                     <div className='flex items-center justify-center flex-col'>
                                 <IoIosImages className='text-6xl text-blue-500 ' />
-                                <p className="text-center">Uplaod Images</p>
+                                <p className="text-center">Upload Images</p>
 
                     </div>
                 }
-                </div>}
+                </div>
+             )}
     </>
 }
