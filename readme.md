@@ -116,8 +116,3 @@ uvicorn app:app --reload
 
 ---
 
-## 🧑‍💻 Developer
-
-Designed & Developed by **CodeWithKrishna**
-
-If you love this project, please consider giving it a ⭐ Star and contributing!
