@@ -12,8 +12,12 @@ async def getAllProductsService():
         "updated_at":0,
         "created_at":0
     }):
-        product['image'] = choice(product['images'])['image_url']
-        del product['images']
+        if product.get('images') and len(product['images']) > 0:
+            product['image'] = choice(product['images'])['image_url']
+        else:
+            product['image'] = None
+        if 'images' in product:
+            del product['images']
 
         products.append(product)
 
@@ -46,8 +50,12 @@ async def getProductBySlugService(slug):
     # elif product['user']['user_id']:
     #     del product['user']['user_id']
     
-    product['image'] = choice(product['images'])['image_url']
-    del product['images'] 
+    if product.get('images') and len(product['images']) > 0:
+        product['image'] = choice(product['images'])['image_url']
+    else:
+        product['image'] = None
+    if 'images' in product:
+        del product['images'] 
 
     return product
 

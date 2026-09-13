@@ -32,13 +32,9 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 from config.Env import ENVConfig
 
 app.add_middleware(CORSMiddleware, allow_headers=["*"],
-    allow_methods=['GET','POST','PUT','PATCH','DELETE'],
-    allow_origins=[
-        "http://localhost:5173",
-        "http://127.0.0.1:5173",
-        ENVConfig.FRONTEND_URI
-    ],
-    allow_credentials=True)
+    allow_methods=['*'],
+    allow_origins=["*"],
+    allow_credentials=False)
 
 # Routes
 app.include_router(AuthRouter)
