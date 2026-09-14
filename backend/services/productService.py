@@ -11,13 +11,17 @@ async def allProductsService(userId:str):
 
     all_products = []
     async for product in product_collection.find({"user.user_id":userId}):
+        image_url = ""
+        if product.get('images') and len(product['images']) > 0:
+            image_url = product['images'][0]['image_url']
+            
         all_products.append({
             "title": product['title'],
             "category": product['category'],
             "slug": product['slug'],
             "_id": str(product['_id']),
             "created_at":product['created_at'],
-            "image":product['images'][0]['image_url'],
+            "image": image_url,
         })
     return all_products
     pass

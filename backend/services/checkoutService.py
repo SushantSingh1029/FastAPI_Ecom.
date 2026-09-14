@@ -1,3 +1,4 @@
+from fastapi import HTTPException
 from models import checkoutModel
 import bson
 from config.db import user_collection,profile_collection,cart_collection,product_collection,orders_collection
@@ -31,13 +32,16 @@ async def makeCheckout(data:checkoutModel.MakeCheckout,userId:str):
         data['total_payable_amount']+=  cart_product['qty']*product['price']
         data['products'].append(str(cart_product['_id']))
 
-        order_details = {
+    if not data['products']:
+        raise HTTPException(status_code=400, detail="Cart is empty")
+
+    order_details = {
         "amount": data['total_payable_amount']*100,  # amount in paise
         "currency": "INR",
         "receipt": f"ECOMFARM{randint(1111,9999)}",
         "payment_capture": 1,
     }
-    order=RazorPayClient.order.create(order_details)
+    order = RazorPayClient.order.create(order_details)
 
 
     order_data = checkoutModel.AddOrder(

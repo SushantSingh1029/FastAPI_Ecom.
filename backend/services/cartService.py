@@ -87,6 +87,10 @@ async def getProductsService(userId:str):
         # products
         product = await product_collection.find_one({"_id":bson.ObjectId(cart_product['product_id'])})
 
+        image_url = ""
+        if product.get('images') and len(product['images']) > 0:
+            image_url = choice(product['images'])['image_url']
+            
         data = {
             "_id":cart_product['product_id'],
             "title":product['title'],
@@ -94,7 +98,7 @@ async def getProductsService(userId:str):
             "total_price":product['price']*cart_product['qty'],
             "category":product['category'],
             "qty":cart_product['qty'],
-            "image": choice(product['images'])['image_url']
+            "image": image_url
         }
         all_products.append(data)
         

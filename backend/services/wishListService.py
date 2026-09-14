@@ -34,13 +34,17 @@ async def getProductsService(user_id):
     async for product in wishlist_collection.find({"user_id":user_id}):
         data = await product_collection.find_one({"_id":bson.ObjectId(product['product_id'])})
 
+        image_url = ""
+        if data.get('images') and len(data['images']) > 0:
+            image_url = data['images'][0]['image_url']
+            
         products.append({
              "title": data['title'],
             "category": data['category'],
             "slug": data['slug'],
             "_id": str(data['_id']),
             "created_at":data['created_at'],
-            "image":data['images'][0]['image_url'],
+            "image": image_url,
         })
     
     return products
